@@ -1,0 +1,74 @@
+---
+import '../styles/globals.css';
+
+interface Props {
+	title?: string;
+	description?: string;
+}
+
+const {
+	title = 'LOMBAO',
+	description = 'Lombao Studio — software boutique: aplicaciones a medida, e-commerce y marketing digital.',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<meta name="description" content={description} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:type" content="website" />
+		<meta property="og:image" content="/lombao-logo-02.png" />
+		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+		<title>{title}</title>
+	</head>
+	<body class="bg-ink">
+		<div class="site-glow" aria-hidden="true">
+			<div
+				class="glow-blob glow-blob--brand"
+				style="top:-10%; left:-8%; width:600px; height:600px;"
+			></div>
+			<div
+				class="glow-blob glow-blob--accent"
+				style="top:18%; right:-12%; width:500px; height:500px;"
+			></div>
+			<div
+				class="glow-blob glow-blob--blue-dark"
+				style="top:52%; left:-10%; width:550px; height:550px;"
+			></div>
+			<div
+				class="glow-blob glow-blob--brand"
+				style="top:82%; right:-8%; width:500px; height:500px;"
+			></div>
+		</div>
+		<!--
+		CONTRACT — LOMBAO design system (seed: lombao-v1)
+
+		THESIS: LOMBAO se reconoce por el fucsia como color de la acción, titulares de carácter
+		en Momo Trust Display (400) y todo lo funcional en Poppins. Rechaza el hero-neutral genérico:
+		la marca manda en cada CTA y en cada titular.
+
+		OWN-WORLD: fucsia #E1147A (acción) · rosa #E7518E (apoyo/degradados) · turquesa #35B7B9
+		(solo sobre antracita #181C21) · neutros derivados del antracita. Superficies limpias,
+		radios suaves (0.625rem inputs/botones, 1rem cards), bordes sutiles, sombras con offset.
+
+		STORY: el visitante identifica LOMBAO al instante, comprende la propuesta y actúa
+		sobre CTAs fucsia con legibilidad AA garantizada por la tabla de contrastes de la guía.
+
+		FIRST VIEWPORT: header fijo translúcido (logo + nav + CTA) sobre hero a 2 columnas
+		(H1 Momo 400, lead, 2 CTAs, panel metodología); fondo inmersivo continuo `.site-glow`
+		(fijo, z-0) sobre `body bg-ink`, con secciones transparentes y cards glass; footer
+		antracita sólido como ancla final. La inspección visual final llega con los assets reales.
+
+		FORM: sistema de diseño lean sobre Tailwind v4; brief de marca pinado por el usuario.
+
+		FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review,
+		the verdict, and DESIGN.md.
+		-->
+		<slot />
+	</body>
+</html>

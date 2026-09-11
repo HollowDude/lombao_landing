@@ -1,0 +1,800 @@
+@import 'tailwindcss';
+@source '../**/*.{astro,html,js,ts,jsx,tsx,md,mdx}';
+
+/* ─── @font-face ─────────────────────────────────────────────────────────── */
+
+/* Momo Trust Display: titulares de carácter (hero, H1, H2). Solo Regular (400). */
+@font-face {
+	font-family: 'Momo Trust Display';
+	src: url('/fonts/Momo_Trust_Display/MomoTrustDisplay-Regular.ttf') format('truetype');
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+
+/* Poppins Light: pesos finos de apoyo */
+@font-face {
+	font-family: 'Poppins';
+	src: url('/fonts/poppins/Poppins-Light.ttf') format('truetype');
+	font-weight: 300;
+	font-style: normal;
+	font-display: swap;
+}
+
+/* Poppins Regular: cuerpo de texto */
+@font-face {
+	font-family: 'Poppins';
+	src: url('/fonts/poppins/Poppins-Regular.ttf') format('truetype');
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+
+/* Poppins Medium: subtítulos y enlaces */
+@font-face {
+	font-family: 'Poppins';
+	src: url('/fonts/poppins/Poppins-Medium.ttf') format('truetype');
+	font-weight: 500;
+	font-style: normal;
+	font-display: swap;
+}
+
+/* Poppins SemiBold: subtítulos de sección, botones, labels */
+@font-face {
+	font-family: 'Poppins';
+	src: url('/fonts/poppins/Poppins-SemiBold.ttf') format('truetype');
+	font-weight: 600;
+	font-style: normal;
+	font-display: swap;
+}
+
+/* Poppins Bold: énfasis puntual */
+@font-face {
+	font-family: 'Poppins';
+	src: url('/fonts/poppins/Poppins-Bold.ttf') format('truetype');
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+}
+
+/* ─── Tokens de marca (Tailwind v4 @theme) ───────────────────────────────── */
+
+@theme {
+	/* Paleta LOMBAO */
+	--color-brand: #e1147a;
+	--color-brand-hover: #a90f5c;
+	--color-brand-soft: #e7518e;
+	--color-accent: #35b7b9;
+	--color-blue-dark: #276493;
+	--color-blue-dark-hover: #1d4b6e;
+	--color-ink: #181c21;
+
+	/* Escala de neutros derivada del Negro Antracita */
+	--color-neutral-900: #181c21;
+	--color-neutral-700: #3d4149;
+	--color-neutral-500: #6b7178;
+	--color-neutral-300: #c4c7cb;
+	--color-neutral-100: #edeef0;
+	--color-neutral-0: #ffffff;
+
+	/* Estados de error (funcional, fuera de la paleta de marca) */
+	--color-error: #ba1a1a;
+	--color-error-bg: #ffdad6;
+
+	/* Tipografías */
+	--font-display: 'Momo Trust Display', 'Poppins', sans-serif;
+	--font-sans: 'Poppins', system-ui, sans-serif;
+}
+
+/* ─── Base ───────────────────────────────────────────────────────────────── */
+
+@layer base {
+	html {
+		font-family: var(--font-sans);
+		font-weight: 400;
+		color: var(--color-ink);
+		background-color: var(--color-neutral-0);
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		scroll-behavior: smooth;
+		scrollbar-color: var(--color-neutral-300) var(--color-neutral-100);
+		scrollbar-width: thin;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		html {
+			scroll-behavior: auto;
+		}
+	}
+
+	body {
+		font-size: 1rem;
+		line-height: 1.5;
+	}
+
+	/* H1–H2 → Momo Trust Display (peso real disponible: 400, sin faux-bold) */
+	h1,
+	h2 {
+		font-family: var(--font-display);
+		font-weight: 400;
+		color: var(--color-ink);
+		text-wrap: balance;
+	}
+
+	/* H3–H6 → Poppins funcional */
+	h3,
+	h4,
+	h5,
+	h6 {
+		font-family: var(--font-sans);
+		font-weight: 600;
+		color: var(--color-ink);
+		text-wrap: balance;
+	}
+
+	h1 {
+		font-size: clamp(2.25rem, 5.5vw, 3.5rem);
+		line-height: 1.1;
+		letter-spacing: -0.02em;
+	}
+	h2 {
+		font-size: clamp(1.875rem, 4vw, 2.5rem);
+		line-height: 1.15;
+		letter-spacing: -0.01em;
+	}
+	h3 {
+		font-size: clamp(1.5rem, 3vw, 2rem);
+		line-height: 1.25;
+	}
+	h4 {
+		font-size: clamp(1.25rem, 2.4vw, 1.5rem);
+		line-height: 1.33;
+	}
+	h5 {
+		font-size: 1.25rem;
+		line-height: 1.4;
+		font-weight: 500;
+	}
+	h6 {
+		font-size: 1.125rem;
+		line-height: 1.33;
+		font-weight: 500;
+	}
+
+	p,
+	li {
+		font-family: var(--font-sans);
+		font-weight: 400;
+		line-height: 1.5;
+	}
+
+	strong,
+	b {
+		font-weight: 600;
+	}
+
+	/* Enlace: fucsia. Hover oscurecido para mantener AA en texto pequeño
+	   (el rosa solo vale como texto grande/decorativo sobre blanco). */
+	a {
+		color: var(--color-brand);
+		font-weight: 500;
+		text-decoration: underline;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 0.2em;
+		text-decoration-color: color-mix(in srgb, var(--color-brand) 35%, transparent);
+		transition:
+			color 150ms ease,
+			text-decoration-color 150ms ease;
+	}
+
+	a:hover {
+		color: var(--color-brand-hover);
+		text-decoration-color: currentColor;
+	}
+
+	/* Foco de teclado visible en toda la interfaz */
+	:focus-visible {
+		outline: 2px solid var(--color-brand);
+		outline-offset: 2px;
+	}
+
+	button {
+		cursor: pointer;
+	}
+
+	::selection {
+		background-color: var(--color-brand);
+		color: #ffffff;
+	}
+
+	input,
+	textarea {
+		caret-color: var(--color-brand);
+	}
+
+	hr {
+		border-color: var(--color-neutral-300);
+	}
+
+	::-webkit-scrollbar {
+		width: 10px;
+		height: 10px;
+	}
+	::-webkit-scrollbar-track {
+		background: var(--color-neutral-100);
+	}
+	::-webkit-scrollbar-thumb {
+		background: var(--color-neutral-300);
+		border-radius: 5px;
+		border: 2px solid var(--color-neutral-100);
+	}
+	::-webkit-scrollbar-thumb:hover {
+		background: var(--color-neutral-500);
+	}
+}
+
+/* ─── Componentes reutilizables ──────────────────────────────────────────── */
+
+@layer components {
+	/* ── Tipografía ──────────────────────────────────────────── */
+	.text-h1 {
+		font-family: var(--font-display);
+		font-weight: 400;
+		font-size: clamp(2.25rem, 5.5vw, 3.5rem);
+		line-height: 1.1;
+		letter-spacing: -0.02em;
+		text-wrap: balance;
+	}
+	.text-h2 {
+		font-family: var(--font-display);
+		font-weight: 400;
+		font-size: clamp(1.875rem, 4vw, 2.5rem);
+		line-height: 1.15;
+		letter-spacing: -0.01em;
+		text-wrap: balance;
+	}
+	.text-h3 {
+		font-family: var(--font-sans);
+		font-weight: 600;
+		font-size: clamp(1.5rem, 3vw, 2rem);
+		line-height: 1.25;
+		text-wrap: balance;
+	}
+	.text-h4 {
+		font-family: var(--font-sans);
+		font-weight: 600;
+		font-size: clamp(1.25rem, 2.4vw, 1.5rem);
+		line-height: 1.33;
+		text-wrap: balance;
+	}
+	.text-h5 {
+		font-family: var(--font-sans);
+		font-weight: 500;
+		font-size: 1.25rem;
+		line-height: 1.4;
+	}
+	.text-h6 {
+		font-family: var(--font-sans);
+		font-weight: 500;
+		font-size: 1.125rem;
+		line-height: 1.33;
+	}
+	.text-lead {
+		font-size: 1.125rem;
+		line-height: 1.75;
+	}
+	.text-body {
+		font-size: 1rem;
+		line-height: 1.5;
+	}
+	.text-body-sm {
+		font-size: 0.875rem;
+		line-height: 1.43;
+	}
+	.text-caption {
+		font-size: 0.75rem;
+		line-height: 1.33;
+		letter-spacing: 0.01em;
+		color: var(--color-neutral-500);
+	}
+	.overline {
+		font-size: 0.75rem;
+		font-weight: 600;
+		line-height: 1.33;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+	.button-label {
+		font-size: 1rem;
+		font-weight: 600;
+		line-height: 1.5;
+		letter-spacing: 0.01em;
+	}
+	.text-measure {
+		max-width: 70ch;
+	}
+
+	/* ── Layout ──────────────────────────────────────────────── */
+	.container-site {
+		width: 100%;
+		max-width: 80rem;
+		margin-inline: auto;
+		padding-inline: 1rem;
+
+		@media (min-width: 768px) {
+			padding-inline: 2rem;
+		}
+		@media (min-width: 1024px) {
+			padding-inline: 4rem;
+		}
+	}
+
+	.section-py {
+		padding-block: clamp(4rem, 9vw, 6.5rem);
+	}
+
+	.grid-12 {
+		display: grid;
+		grid-template-columns: repeat(12, minmax(0, 1fr));
+		gap: 1rem;
+
+		@media (min-width: 768px) {
+			gap: 1.5rem;
+		}
+	}
+
+	.col-span-1 {
+		grid-column: span 1 / span 1;
+	}
+	.col-span-2 {
+		grid-column: span 2 / span 2;
+	}
+	.col-span-3 {
+		grid-column: span 3 / span 3;
+	}
+	.col-span-4 {
+		grid-column: span 4 / span 4;
+	}
+	.col-span-5 {
+		grid-column: span 5 / span 5;
+	}
+	.col-span-6 {
+		grid-column: span 6 / span 6;
+	}
+	.col-span-7 {
+		grid-column: span 7 / span 7;
+	}
+	.col-span-8 {
+		grid-column: span 8 / span 8;
+	}
+	.col-span-9 {
+		grid-column: span 9 / span 9;
+	}
+	.col-span-10 {
+		grid-column: span 10 / span 10;
+	}
+	.col-span-11 {
+		grid-column: span 11 / span 11;
+	}
+	.col-span-12 {
+		grid-column: span 12 / span 12;
+	}
+
+	/* ── Botones ─────────────────────────────────────────────── */
+	.btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+		padding: 0.75rem 1.5rem;
+		border-radius: 0.625rem;
+		font-family: var(--font-sans);
+		font-size: 1rem;
+		font-weight: 600;
+		line-height: 1.5;
+		letter-spacing: 0.01em;
+		text-decoration: none;
+		border: 1px solid transparent;
+		cursor: pointer;
+		transition:
+			background-color 180ms ease,
+			border-color 180ms ease,
+			color 180ms ease,
+			transform 180ms ease;
+	}
+
+	.btn-primary {
+		background-color: var(--color-brand);
+		color: #ffffff;
+	}
+	.btn-primary:hover {
+		background-color: var(--color-brand-hover);
+		color: #ffffff;
+	}
+
+	.btn-outline {
+		background-color: transparent;
+		border-color: var(--color-ink);
+		color: var(--color-ink);
+	}
+	.btn-outline:hover {
+		border-color: var(--color-brand);
+		color: var(--color-brand);
+	}
+
+	.btn-ghost {
+		background-color: transparent;
+		color: var(--color-brand);
+	}
+	.btn-ghost:hover {
+		background-color: rgba(225, 20, 122, 0.08);
+		background-color: color-mix(in srgb, var(--color-brand) 8%, transparent);
+		color: var(--color-brand-hover);
+	}
+
+	.btn--dark {
+		background-color: var(--color-ink);
+		color: #ffffff;
+	}
+	.btn--dark:hover {
+		background-color: #101317;
+		color: #ffffff;
+	}
+
+	/* Botón tipo pill (borde totalmente redondeado) */
+	.btn--pill {
+		border-radius: 9999px;
+	}
+
+	/* ── Badge / pill ────────────────────────────────────────── */
+	.badge {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.375rem;
+		padding: 0.25rem 0.75rem;
+		border-radius: 999px;
+		font-family: var(--font-sans);
+		font-size: 0.75rem;
+		font-weight: 600;
+		line-height: 1.2;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+
+	.badge-default {
+		background-color: rgba(225, 20, 122, 0.1);
+		background-color: color-mix(in srgb, var(--color-brand) 10%, transparent);
+		color: var(--color-brand-hover);
+		border: 1px solid rgba(225, 20, 122, 0.25);
+		border-color: color-mix(in srgb, var(--color-brand) 25%, transparent);
+	}
+	.badge--outline {
+		background-color: transparent;
+		color: var(--color-brand);
+		border: 1px solid var(--color-brand);
+	}
+	.badge--solid {
+		background-color: var(--color-brand);
+		color: #ffffff;
+		border: 1px solid var(--color-brand);
+	}
+
+	/* Sobre fondos oscuros: el turquesa es el color válido de acento */
+	.badge--accent {
+		background-color: rgba(53, 183, 185, 0.15);
+		background-color: color-mix(in srgb, var(--color-accent) 15%, transparent);
+		color: var(--color-accent);
+		border: 1px solid rgba(53, 183, 185, 0.35);
+		border-color: color-mix(in srgb, var(--color-accent) 35%, transparent);
+	}
+
+	/* ── Card ────────────────────────────────────────────────── */
+	.card {
+		background-color: #ffffff;
+		border: 1px solid var(--color-neutral-300);
+		border-radius: 1rem;
+		overflow: hidden;
+		transition:
+			transform 200ms ease,
+			box-shadow 200ms ease,
+			border-color 200ms ease;
+	}
+	.card:hover {
+		transform: translateY(-3px);
+		box-shadow: 0 16px 32px -16px rgba(24, 28, 33, 0.2);
+	}
+	.card--static:hover {
+		transform: none;
+		box-shadow: none;
+	}
+	.card--dark {
+		background-color: var(--color-ink);
+		border-color: transparent;
+	}
+	.card--dark :is(h1, h2, h3, h4, h5, h6) {
+		color: #ffffff;
+	}
+	.card--dark p,
+	.card--dark li {
+		color: var(--color-neutral-100);
+	}
+	.card--dark a {
+		color: var(--color-brand-soft);
+	}
+	.card--dark a:hover {
+		color: var(--color-accent);
+	}
+	.card-body {
+		padding: 1.5rem;
+	}
+
+	/* ── Action link — "Ver más →" (flecha SVG autorada) ──────── */
+	.action-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		font-family: var(--font-sans);
+		font-size: 0.875rem;
+		font-weight: 600;
+		line-height: 1.5;
+		letter-spacing: 0.05em;
+		text-transform: uppercase;
+		color: var(--color-brand-hover);
+		text-decoration: none;
+	}
+	.action-link:hover {
+		color: var(--color-brand-hover);
+	}
+	.action-link::after {
+		content: '';
+		width: 1.1em;
+		height: 1.1em;
+		flex: none;
+		background-color: currentColor;
+		-webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 18l6-6-6-6'/%3E%3C/svg%3E");
+		mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 18l6-6-6-6'/%3E%3C/svg%3E");
+		-webkit-mask-size: contain;
+		mask-size: contain;
+		-webkit-mask-position: center;
+		mask-position: center;
+		-webkit-mask-repeat: no-repeat;
+		mask-repeat: no-repeat;
+		transition: transform 180ms ease;
+	}
+	.action-link:hover::after {
+		transform: translateX(3px);
+	}
+
+	/* ── Nav link — subrayado animado (header) ────────────────── */
+	.nav-link {
+		position: relative;
+		font-family: var(--font-sans);
+		font-weight: 500;
+		font-size: 0.95rem;
+		color: var(--color-ink);
+		text-decoration: none;
+		transition: color 180ms ease;
+	}
+	.nav-link::after {
+		content: '';
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		height: 2px;
+		background-color: var(--color-brand);
+		transform: scaleX(0);
+		transform-origin: left;
+		transition: transform 220ms ease;
+	}
+	.nav-link:hover {
+		color: var(--color-brand);
+	}
+	.nav-link:hover::after {
+		transform: scaleX(1);
+	}
+
+	/* ── Formularios ──────────────────────────────────────────── */
+	.field {
+		display: grid;
+		gap: 0.375rem;
+	}
+	.field-label {
+		font-family: var(--font-sans);
+		font-size: 0.75rem;
+		font-weight: 600;
+		line-height: 1.33;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--color-neutral-700);
+	}
+	.input,
+	.textarea {
+		width: 100%;
+		padding: 0.75rem 1rem;
+		background-color: #ffffff;
+		border: 1px solid var(--color-neutral-300);
+		border-radius: 0.625rem;
+		color: var(--color-ink);
+		font-family: var(--font-sans);
+		font-size: 1rem;
+		line-height: 1.5;
+		transition:
+			border-color 180ms ease,
+			box-shadow 180ms ease;
+	}
+	.input::placeholder,
+	.textarea::placeholder {
+		color: var(--color-neutral-500);
+	}
+	.input:hover,
+	.textarea:hover {
+		border-color: var(--color-neutral-500);
+	}
+	.input:focus,
+	.textarea:focus {
+		outline: none;
+		border-color: var(--color-brand);
+		box-shadow: 0 0 0 3px rgba(225, 20, 122, 0.18);
+		box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-brand) 18%, transparent);
+	}
+	.input--error {
+		border-color: var(--color-error);
+	}
+	.input--error:focus {
+		box-shadow: 0 0 0 3px rgba(186, 26, 26, 0.18);
+		box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-error) 18%, transparent);
+	}
+	.field-error {
+		font-family: var(--font-sans);
+		font-size: 0.85rem;
+		line-height: 1.4;
+		color: var(--color-error);
+	}
+
+	/* ── Superficies de cristal (glass) ──────────────────────────── */
+	.glass {
+		background-color: color-mix(in srgb, var(--color-neutral-0) 65%, transparent);
+		-webkit-backdrop-filter: blur(20px);
+		backdrop-filter: blur(20px);
+		border: 1px solid color-mix(in srgb, var(--color-neutral-0) 30%, transparent);
+	}
+	.glass--dark {
+		background-color: color-mix(in srgb, var(--color-ink) 55%, transparent);
+		-webkit-backdrop-filter: blur(20px);
+		backdrop-filter: blur(20px);
+		border: 1px solid color-mix(in srgb, #ffffff 8%, transparent);
+	}
+	.glass--brand {
+		background-color: color-mix(in srgb, var(--color-brand) 55%, transparent);
+		-webkit-backdrop-filter: blur(20px);
+		backdrop-filter: blur(20px);
+		border: 1px solid color-mix(in srgb, var(--color-brand) 40%, transparent);
+	}
+	/* Opacidad al 80%: por debajo de ~75% el texto ink no alcanza AA sobre fondo oscuro */
+	.glass--accent {
+		background-color: color-mix(in srgb, var(--color-accent) 80%, transparent);
+		-webkit-backdrop-filter: blur(20px);
+		backdrop-filter: blur(20px);
+		border: 1px solid color-mix(in srgb, var(--color-accent) 40%, transparent);
+	}
+	/* Vidrio de lectura: superficie casi opaca para texto ink sobre fondo oscuro */
+	.glass--surface {
+		background-color: color-mix(in srgb, var(--color-neutral-0) 90%, transparent);
+		-webkit-backdrop-filter: blur(20px);
+		backdrop-filter: blur(20px);
+		border: 1px solid color-mix(in srgb, var(--color-neutral-0) 40%, transparent);
+		border-radius: 1rem;
+		overflow: hidden;
+		transition:
+			transform 200ms ease,
+			box-shadow 200ms ease,
+			border-color 200ms ease;
+	}
+	.glass--surface:hover {
+		transform: translateY(-3px);
+		box-shadow: 0 16px 32px -16px rgba(24, 28, 33, 0.2);
+	}
+	/* Fallback: sin backdrop-filter, superficie sólida legible */
+	@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+		.glass {
+			background-color: var(--color-neutral-0);
+		}
+		.glass--dark {
+			background-color: var(--color-ink);
+		}
+		.glass--brand {
+			background-color: var(--color-brand);
+		}
+		.glass--accent {
+			background-color: var(--color-accent);
+		}
+		.glass--surface {
+			background-color: var(--color-neutral-0);
+		}
+	}
+	@media (prefers-reduced-transparency: reduce) {
+		.glass,
+		.glass--dark,
+		.glass--brand,
+		.glass--accent,
+		.glass--surface {
+			-webkit-backdrop-filter: none;
+			backdrop-filter: none;
+		}
+	}
+
+	/* ── Blobs decorativos de marca (glow de fondo) ──────────────── */
+	.glow-blob {
+		position: absolute;
+		border-radius: 9999px;
+		filter: blur(120px);
+		pointer-events: none;
+		z-index: 0;
+	}
+	.glow-blob--brand {
+		background-color: color-mix(in srgb, var(--color-brand) 14%, transparent);
+	}
+	.glow-blob--accent {
+		background-color: color-mix(in srgb, var(--color-accent) 14%, transparent);
+	}
+	.glow-blob--blue-dark {
+		background-color: color-mix(in srgb, var(--color-blue-dark) 14%, transparent);
+	}
+
+	/* ── Fondo inmersivo global (una sola capa fija para todo el sitio) ── */
+	.site-glow {
+		position: fixed;
+		inset: 0;
+		z-index: 0;
+		overflow: hidden;
+		pointer-events: none;
+	}
+
+	/* ── Stacking cards ──────────────────────────────────────────── */
+	.stack-container {
+		display: flex;
+		flex-direction: column;
+	}
+	.stack-card {
+		position: sticky;
+		min-height: min(72vh, 520px);
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		border-radius: 1rem;
+		padding: 2rem;
+		margin-bottom: 1.5rem;
+		box-shadow: 0 16px 32px -16px rgba(0, 0, 0, 0.35);
+		overflow: hidden;
+	}
+
+	/* ── Degradados de marca ─────────────────────────────────────── */
+	.bg-gradient-brand {
+		background: linear-gradient(
+			160deg,
+			var(--color-brand) 0%,
+			var(--color-brand-soft) 30%,
+			var(--color-accent) 70%,
+			var(--color-blue-dark) 100%
+		);
+	}
+	.bg-gradient-accent {
+		background: linear-gradient(90deg, var(--color-brand) 0%, var(--color-accent) 100%);
+	}
+
+	/* ── Movimiento reducido ─────────────────────────────────────── */
+	@media (prefers-reduced-motion: reduce) {
+		.card,
+		.glass--surface,
+		.btn,
+		.action-link::after,
+		.nav-link::after {
+			transition: none;
+		}
+		.card:hover,
+		.glass--surface:hover {
+			transform: none;
+		}
+	}
+}

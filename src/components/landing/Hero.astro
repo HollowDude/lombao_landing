@@ -1,0 +1,43 @@
+---
+import { CodeXml } from 'lucide-astro';
+---
+
+<section
+	id="top"
+	class="relative flex min-h-[90vh] items-center overflow-hidden section-py text-neutral-100"
+>
+	<div class="container-site relative z-10 grid items-center gap-12 md:grid-cols-2">
+		<div class="flex flex-col gap-6">
+			<h1 class="text-h1 text-neutral-100">Software Boutique para Ideas Extraordinarias</h1>
+			<p class="text-lead max-w-xl text-neutral-100/80">
+				Transformamos conceptos complejos en soluciones digitales de alto impacto. Diseño,
+				desarrollo y estrategia con sello Lombao.
+			</p>
+			<div class="mt-2 flex flex-wrap gap-4">
+				<a class="btn btn-primary btn--pill" href="#contact">Empezar Proyecto</a>
+				<a
+					class="btn btn--pill border-brand-soft text-brand-soft hover:bg-brand-soft/10"
+					href="#portfolio"
+				>
+					Ver Portafolio
+				</a>
+			</div>
+		</div>
+
+		<!-- Panel metodología (placeholder de imagen real) -->
+		<div
+			class="group relative flex h-[400px] items-center justify-center overflow-hidden rounded-2xl border border-neutral-300/10 md:h-[600px]"
+		>
+			<!-- TODO: reemplazar por asset real (imagen de metodología) -->
+			<div class="absolute inset-0 bg-gradient-brand opacity-30"></div>
+			<div class="absolute inset-0 z-10 bg-gradient-to-tr from-ink via-transparent to-transparent"></div>
+			<div class="relative z-20 p-8 text-center">
+				<CodeXml
+					class="mx-auto mb-4 h-16 w-16 text-brand drop-shadow-[0_0_15px_rgba(225,20,122,0.5)]"
+					aria-hidden="true"
+				/>
+				<h3 class="text-h3 text-white">Ingeniería de Precisión</h3>
+			</div>
+		</div>
+	</div>
+</section>

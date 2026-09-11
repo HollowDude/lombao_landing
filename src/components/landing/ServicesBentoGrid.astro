@@ -1,0 +1,90 @@
+---
+import { Terminal, ShoppingCart, Settings2, CheckCircle2 } from 'lucide-astro';
+---
+
+<section id="services" class="relative overflow-hidden section-py text-neutral-100">
+	<div class="container-site relative z-10">
+		<div class="mb-16 text-center">
+			<h2 class="text-h2 text-neutral-100">Nuestros Servicios</h2>
+			<p class="text-body mx-auto mt-4 max-w-2xl text-neutral-100/80">
+				Soluciones integrales diseñadas a medida para escalar tu negocio en el entorno digital.
+			</p>
+		</div>
+
+		<div class="grid auto-rows-[300px] grid-cols-1 gap-6 md:grid-cols-3">
+			<!-- Tarjeta grande -->
+			<article
+				class="glass--surface group relative flex flex-col justify-between overflow-hidden p-8 hover:border-accent md:col-span-2 md:row-span-2"
+			>
+				<div
+					class="absolute -right-16 -top-16 h-64 w-64 rounded-full bg-brand/10 blur-[80px] transition-transform duration-500 group-hover:scale-150 motion-reduce:scale-100 motion-reduce:transition-none"
+				>
+				</div>
+				<div class="relative z-10">
+					<div
+						class="mb-6 flex h-12 w-12 items-center justify-center rounded-lg border border-neutral-300 bg-neutral-100"
+					>
+						<Terminal class="h-6 w-6 text-brand" />
+					</div>
+					<h3 class="text-h3 mb-2">Desarrollo de Software</h3>
+					<p class="text-body max-w-md text-neutral-700">
+						Sistemas robustos, escalables y seguros construidos con las últimas tecnologías
+						para resolver problemas complejos empresariales.
+					</p>
+				</div>
+				<ul class="relative z-10 mt-8 space-y-3">
+					<li class="flex items-center gap-3 text-neutral-700">
+						<CheckCircle2 class="h-5 w-5 shrink-0 text-brand" /> Arquitectura Cloud Native
+					</li>
+					<li class="flex items-center gap-3 text-neutral-700">
+						<CheckCircle2 class="h-5 w-5 shrink-0 text-brand" /> APIs &amp; Microservicios
+					</li>
+					<li class="flex items-center gap-3 text-neutral-700">
+						<CheckCircle2 class="h-5 w-5 shrink-0 text-brand" /> Aplicaciones Multiplataforma
+					</li>
+				</ul>
+			</article>
+
+			<!-- E-commerce -->
+			<article class="glass--surface group relative flex flex-col overflow-hidden hover:border-accent">
+				<div class="relative h-32 w-full">
+					<!-- TODO: reemplazar por asset real -->
+					<div class="absolute inset-0 bg-gradient-to-br from-brand/30 to-accent/20"></div>
+					<div class="absolute inset-0 bg-gradient-to-t from-white to-transparent"></div>
+				</div>
+				<div class="relative z-10 -mt-6 flex flex-grow flex-col p-6">
+					<div
+						class="mb-4 flex h-10 w-10 items-center justify-center rounded-lg border border-neutral-300 bg-neutral-100 shadow-sm"
+					>
+						<ShoppingCart class="h-5 w-5 text-brand" />
+					</div>
+					<h3 class="text-h4 mb-2">E-commerce</h3>
+					<p class="text-body-sm text-neutral-700">
+						Tiendas online optimizadas para conversión con integraciones de pago seguras y
+						gestión de inventario.
+					</p>
+				</div>
+			</article>
+
+			<!-- Gestión de Sistemas -->
+			<article class="glass--surface group relative flex flex-col overflow-hidden hover:border-accent">
+				<div class="relative h-32 w-full">
+					<!-- TODO: reemplazar por asset real -->
+					<div class="absolute inset-0 bg-gradient-to-br from-accent/30 to-brand/20"></div>
+					<div class="absolute inset-0 bg-gradient-to-t from-white to-transparent"></div>
+				</div>
+				<div class="relative z-10 -mt-6 flex flex-grow flex-col p-6">
+					<div
+						class="mb-4 flex h-10 w-10 items-center justify-center rounded-lg border border-neutral-300 bg-neutral-100 shadow-sm"
+					>
+						<Settings2 class="h-5 w-5 text-brand" />
+					</div>
+					<h3 class="text-h4 mb-2">Gestión de Sistemas</h3>
+					<p class="text-body-sm text-neutral-700">
+						Mantenimiento, monitorización y optimización continua de infraestructuras críticas.
+					</p>
+				</div>
+			</article>
+		</div>
+	</div>
+</section>

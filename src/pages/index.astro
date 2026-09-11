@@ -1,0 +1,20 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SiteHeader from '../components/landing/SiteHeader.astro';
+import Hero from '../components/landing/Hero.astro';
+import StackingCards from '../components/landing/StackingCards.astro';
+import ServicesBentoGrid from '../components/landing/ServicesBentoGrid.astro';
+import MarketingBanner from '../components/landing/MarketingBanner.astro';
+import SiteFooter from '../components/landing/SiteFooter.astro';
+---
+
+<Layout title="Lombao Studio | Software Boutique">
+	<SiteHeader />
+	<main class="pt-20">
+		<Hero />
+		<StackingCards />
+		<ServicesBentoGrid />
+		<MarketingBanner />
+	</main>
+	<SiteFooter />
+</Layout>

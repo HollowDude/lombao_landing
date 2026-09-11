@@ -1,0 +1,56 @@
+---
+const items = [
+	{
+		title: 'Consultoría Estratégica',
+		desc: 'Auditamos tu negocio y trazamos una hoja de ruta digital clara: prioridades, métricas y tecnología alineada a tus objetivos.',
+		variant: 'dark',
+	},
+	{
+		title: 'Aplicaciones a Medida',
+		desc: 'Desarrollamos software a la medida — web, móvil o de escritorio — con arquitectura sólida y experiencia de usuario cuidada.',
+		variant: 'brand',
+	},
+	{
+		title: 'E-commerce & Gestión',
+		desc: 'Tiendas online y sistemas internos que conectan ventas, inventario y operación para que tu equipo trabaje sin fricción.',
+		variant: 'accent',
+	},
+	{
+		title: 'Marketing Digital',
+		desc: 'Posicionamiento, campañas y contenido que convierten visitas en clientes, con reporting transparente mes a mes.',
+		variant: 'glass',
+	},
+];
+
+const variantClasses: Record<string, string> = {
+	dark: 'glass--dark text-neutral-100',
+	brand: 'glass--brand text-white',
+	accent: 'glass--accent text-ink',
+	glass: 'glass--dark text-neutral-100',
+};
+---
+
+<section id="approach" class="relative section-py text-neutral-100">
+	<div class="container-site relative z-10">
+		<div class="mx-auto mb-16 max-w-2xl text-center">
+			<h2 class="text-h2">Nuestro Enfoque</h2>
+			<p class="text-body mt-4 text-neutral-100/80">
+				Cuatro pilares que acompañan a tu proyecto de principio a fin, sin recetas genéricas.
+			</p>
+		</div>
+
+		<div class="stack-container mx-auto max-w-3xl">
+			{
+				items.map((it, i) => (
+					<article
+						class={`stack-card ${variantClasses[it.variant]}`}
+						style={`top: calc(4rem + ${i} * 2.5rem); z-index: ${i + 1};`}
+					>
+						<h3 class="text-h3">{it.title}</h3>
+						<p class="text-body mt-3">{it.desc}</p>
+					</article>
+				))
+			}
+		</div>
+	</div>
+</section>
