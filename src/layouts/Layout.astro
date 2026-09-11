@@ -22,11 +22,24 @@ const {
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
 		<meta property="og:type" content="website" />
+		<meta property="og:url" content="https://lombaoestudios.com/" />
+		<meta property="og:locale" content="es_ES" />
 		<meta property="og:image" content="/lombao-logo-02.png" />
 		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+		<script is:inline>
+			// Guard anti-flash: fija el tema antes del primer pintado.
+			try {
+				document.documentElement.setAttribute(
+					'data-theme',
+					localStorage.getItem('lombao-theme') || 'dark',
+				);
+			} catch {
+				document.documentElement.setAttribute('data-theme', 'dark');
+			}
+		</script>
 		<title>{title}</title>
 	</head>
-	<body class="bg-ink">
+	<body class="bg-surface">
 		<div class="site-glow" aria-hidden="true">
 			<div
 				class="glow-blob glow-blob--brand"
@@ -60,9 +73,11 @@ const {
 		sobre CTAs fucsia con legibilidad AA garantizada por la tabla de contrastes de la guía.
 
 		FIRST VIEWPORT: header fijo translúcido (logo + nav + CTA) sobre hero a 2 columnas
-		(H1 Momo 400, lead, 2 CTAs, panel metodología); fondo inmersivo continuo `.site-glow`
-		(fijo, z-0) sobre `body bg-ink`, con secciones transparentes y cards glass; footer
-		antracita sólido como ancla final. La inspección visual final llega con los assets reales.
+		(H1 Momo 400, lead, 2 CTAs, panel metodología oscuro fijo); fondo inmersivo continuo
+		`.site-glow` (fijo, z-0) sobre `body bg-surface`, con secciones transparentes y cards
+		glass; footer antracita sólido como ancla final en ambos temas. Tema claro/oscuro con
+		tokens semánticos (`--color-surface`, `--color-on-surface`, `--color-border-subtle`) y
+		toggle con View Transitions API. La inspección visual final llega con los assets reales.
 
 		FORM: sistema de diseño lean sobre Tailwind v4; brief de marca pinado por el usuario.
 

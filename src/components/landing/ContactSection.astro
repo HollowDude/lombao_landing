@@ -1,0 +1,179 @@
+---
+import { Mail, Phone, MapPin } from 'lucide-astro';
+---
+
+<section id="contact" class="relative scroll-mt-24 overflow-hidden section-py text-on-surface">
+	<div class="container-site relative z-10 grid items-start gap-12 md:grid-cols-2">
+		<div class="flex flex-col gap-6">
+			<h2 class="text-h2 text-on-surface">Empezar Proyecto</h2>
+			<p class="text-lead text-on-surface-muted max-w-xl">
+				Cuéntanos qué quieres construir. Respondemos en menos de 24 horas con próximos pasos
+				y presupuesto sin compromiso.
+			</p>
+			<ul class="mt-2 flex flex-col gap-4">
+				<li class="flex items-center gap-3">
+					<Mail class="h-5 w-5 shrink-0 text-brand-soft" aria-hidden="true" />
+					<a
+						class="text-body text-on-surface no-underline hover:underline"
+						href="mailto:contacto@lombaoestudios.com"
+					>
+						contacto@lombaoestudios.com
+					</a>
+				</li>
+				<li class="flex items-center gap-3">
+					<Phone class="h-5 w-5 shrink-0 text-brand-soft" aria-hidden="true" />
+					<a class="text-body text-on-surface no-underline hover:underline" href="tel:+5378361183">
+						+53 7 8361183
+					</a>
+				</li>
+				<li class="flex items-center gap-3">
+					<MapPin class="h-5 w-5 shrink-0 text-brand-soft" aria-hidden="true" />
+					<span class="text-body text-on-surface-muted">
+						Calzada #1207, apto 14 e/18 y 20, Plaza de la Revolución, La Habana
+					</span>
+				</li>
+			</ul>
+		</div>
+
+		<form
+			id="contact-form"
+			class="glass--surface flex flex-col gap-5 p-8"
+			action="mailto:contacto@lombaoestudios.com"
+			method="post"
+			enctype="text/plain"
+		>
+			<div class="field">
+				<label class="field-label" for="contact-nombre">Nombre</label>
+				<input
+					class="input"
+					id="contact-nombre"
+					name="nombre"
+					type="text"
+					placeholder="¿Cómo te llamas?"
+					required
+					autocomplete="name"
+					aria-describedby="contact-nombre-error"
+				/>
+				<p class="field-error hidden" id="contact-nombre-error">Escribe tu nombre.</p>
+			</div>
+			<div class="field">
+				<label class="field-label" for="contact-email">Correo</label>
+				<input
+					class="input"
+					id="contact-email"
+					name="email"
+					type="email"
+					placeholder="nombre@empresa.com"
+					required
+					autocomplete="email"
+					aria-describedby="contact-email-error"
+				/>
+				<p class="field-error hidden" id="contact-email-error">
+					Escribe un correo válido, como nombre@empresa.com.
+				</p>
+			</div>
+			<div class="field">
+				<label class="field-label" for="contact-mensaje">Tu proyecto</label>
+				<textarea
+					class="textarea"
+					id="contact-mensaje"
+					name="mensaje"
+					rows="4"
+					placeholder="¿Qué quieres construir?"
+					required
+					aria-describedby="contact-mensaje-error"
+				></textarea>
+				<p class="field-error hidden" id="contact-mensaje-error">
+					Cuéntanos algo más (mínimo 10 caracteres).
+				</p>
+			</div>
+			<button class="btn btn-primary w-full" type="submit">Enviar mensaje</button>
+			<p class="text-body-sm hidden text-neutral-700" id="contact-status" role="status"></p>
+			<p class="text-body-sm text-neutral-700">Sin spam: usamos tus datos solo para responderte.</p>
+		</form>
+	</div>
+</section>
+
+<script>
+	const form = document.getElementById('contact-form');
+	if (form instanceof HTMLFormElement) {
+		// Mejora progresiva: sin JS quedan la validación nativa y el mailto tal cual.
+		form.setAttribute('novalidate', '');
+
+		const status = document.getElementById('contact-status');
+		const submitBtn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+		const fields = [
+			{
+				inputId: 'contact-nombre',
+				errorId: 'contact-nombre-error',
+				test: (v: string) => v.trim().length >= 2,
+			},
+			{
+				inputId: 'contact-email',
+				errorId: 'contact-email-error',
+				test: (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()),
+			},
+			{
+				inputId: 'contact-mensaje',
+				errorId: 'contact-mensaje-error',
+				test: (v: string) => v.trim().length >= 10,
+			},
+		] as const;
+
+		const setInvalid = (inputId: string, errorId: string, invalid: boolean) => {
+			document.getElementById(errorId)?.classList.toggle('hidden', !invalid);
+			const input = document.getElementById(inputId);
+			if (input instanceof HTMLInputElement || input instanceof HTMLTextAreaElement) {
+				input.classList.toggle('input--error', invalid);
+				if (invalid) input.setAttribute('aria-invalid', 'true');
+				else input.removeAttribute('aria-invalid');
+			}
+		};
+
+		for (const f of fields) {
+			document.getElementById(f.inputId)?.addEventListener('input', () => {
+				setInvalid(f.inputId, f.errorId, false);
+			});
+		}
+
+		form.addEventListener('submit', (event) => {
+			let firstBad: HTMLElement | null = null;
+			for (const f of fields) {
+				const el = document.getElementById(f.inputId);
+				const value = el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement ? el.value : '';
+				const bad = !f.test(value);
+				setInvalid(f.inputId, f.errorId, bad);
+				if (bad && !firstBad && el instanceof HTMLElement) firstBad = el;
+			}
+			if (firstBad) {
+				event.preventDefault();
+				if (status) {
+					status.textContent = 'Revisa los campos marcados antes de enviar.';
+					status.classList.remove('hidden');
+				}
+				firstBad.focus();
+				return;
+			}
+			if (status) {
+				status.textContent = 'Abriendo tu app de correo para enviar el mensaje…';
+				status.classList.remove('hidden');
+			}
+			if (submitBtn) {
+				submitBtn.disabled = true;
+				submitBtn.textContent = 'Abriendo correo…';
+			}
+			// El mailto no confirma entrega: a los 4s se restaura el botón y se ofrece
+			// el canal directo por si no se abrió ninguna app de correo.
+			window.setTimeout(() => {
+				if (submitBtn) {
+					submitBtn.disabled = false;
+					submitBtn.textContent = 'Enviar mensaje';
+				}
+				if (status) {
+					status.innerHTML =
+						'Si no se abrió tu correo, escríbenos directo a <a href="mailto:contacto@lombaoestudios.com">contacto@lombaoestudios.com</a>.';
+				}
+			}, 4000);
+		});
+	}
+</script>

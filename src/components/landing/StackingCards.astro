@@ -1,24 +1,22 @@
 ---
 const items = [
 	{
-		title: 'Consultoría Estratégica',
-		desc: 'Auditamos tu negocio y trazamos una hoja de ruta digital clara: prioridades, métricas y tecnología alineada a tus objetivos.',
+		title: 'Descubrimiento',
+		desc: 'Escuchamos, auditamos y definimos alcance, prioridades y métricas antes de escribir una sola línea de código.',
 		variant: 'dark',
+		image: '/services/descubrimiento.jpg',
 	},
 	{
-		title: 'Aplicaciones a Medida',
-		desc: 'Desarrollamos software a la medida — web, móvil o de escritorio — con arquitectura sólida y experiencia de usuario cuidada.',
+		title: 'Construcción',
+		desc: 'Diseño y desarrollo iterativo con entregas visibles cada semana. Sin cajas negras ni sorpresas al final.',
 		variant: 'brand',
+		image: '/services/construccion.jpg',
 	},
 	{
-		title: 'E-commerce & Gestión',
-		desc: 'Tiendas online y sistemas internos que conectan ventas, inventario y operación para que tu equipo trabaje sin fricción.',
+		title: 'Crecimiento',
+		desc: 'Despliegue, medición y evolución continua: tu producto mejora después del lanzamiento, no se congela.',
 		variant: 'accent',
-	},
-	{
-		title: 'Marketing Digital',
-		desc: 'Posicionamiento, campañas y contenido que convierten visitas en clientes, con reporting transparente mes a mes.',
-		variant: 'glass',
+		image: '/services/crecimiento.jpg',
 	},
 ];
 
@@ -26,20 +24,19 @@ const variantClasses: Record<string, string> = {
 	dark: 'glass--dark text-neutral-100',
 	brand: 'glass--brand text-white',
 	accent: 'glass--accent text-ink',
-	glass: 'glass--dark text-neutral-100',
 };
 ---
 
-<section id="approach" class="relative section-py text-neutral-100">
+<section id="approach" class="relative scroll-mt-24 section-py text-on-surface">
 	<div class="container-site relative z-10">
 		<div class="mx-auto mb-16 max-w-2xl text-center">
-			<h2 class="text-h2">Nuestro Enfoque</h2>
-			<p class="text-body mt-4 text-neutral-100/80">
-				Cuatro pilares que acompañan a tu proyecto de principio a fin, sin recetas genéricas.
+			<h2 class="text-h2">Cómo Trabajamos</h2>
+			<p class="text-body text-on-surface-muted mt-4">
+				Un proceso claro en tres fases, sin cajas negras.
 			</p>
 		</div>
 
-		<div class="stack-container mx-auto max-w-3xl">
+		<div class="stack-container mx-auto max-w-4xl">
 			{
 				items.map((it, i) => (
 					<article
@@ -47,6 +44,12 @@ const variantClasses: Record<string, string> = {
 						style={`top: calc(4rem + ${i} * 2.5rem); z-index: ${i + 1};`}
 					>
 						<h3 class="text-h3">{it.title}</h3>
+
+						<div class="glass--dark my-6 aspect-video overflow-hidden rounded-xl">
+							{/* TODO: <img src={it.image} alt="" loading="lazy" class="h-full w-full object-cover" /> cuando lleguen los assets reales (alt descriptivo solo si aporta info no repetida) */}
+							<div class="bg-gradient-brand h-full w-full opacity-40"></div>
+						</div>
+
 						<p class="text-body mt-3">{it.desc}</p>
 					</article>
 				))

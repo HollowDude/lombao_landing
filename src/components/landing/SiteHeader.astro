@@ -1,38 +1,60 @@
 ---
-import { Menu } from 'lucide-astro';
+import { Menu, Sun, Moon } from 'lucide-astro';
 ---
 
-	<header class="fixed inset-x-0 top-0 z-50 glass--dark">
+<header class="fixed inset-x-0 top-0 z-50 glass-surface">
 	<div class="container-site flex items-center justify-between py-4">
-		<a href="#top" class="flex items-center gap-2">
-			<img src="/lombao-logo-02.png" alt="Lombao Studio" class="h-10 w-auto" />
+		<a href="#top" class="grid items-center" aria-label="Lombao Studio — inicio">
+			<img
+				src="/lombao-logo-02.png"
+				alt=""
+				class="site-logo site-logo--dark col-start-1 row-start-1 h-10 w-auto"
+			/>
+			<img
+				src="/logo-Lombao-con-slogan_1.png"
+				alt=""
+				class="site-logo site-logo--light col-start-1 row-start-1 h-10 w-auto"
+			/>
 		</a>
 
 		<nav class="hidden gap-8 md:flex md:items-center" aria-label="Principal">
-			<a class="nav-link text-neutral-100 hover:text-brand-soft" href="#services">Servicios</a>
-			<a class="nav-link text-neutral-100 hover:text-brand-soft" href="#projects">Proyectos</a>
-			<a class="nav-link text-neutral-100 hover:text-brand-soft" href="#about">Nosotros</a>
+			<a class="nav-link text-on-surface hover:text-brand-soft" href="#services">Servicios</a>
+			<a class="nav-link text-on-surface hover:text-brand-soft" href="#approach">Proceso</a>
+			<a class="nav-link text-on-surface hover:text-brand-soft" href="#marketing">Marketing</a>
 		</nav>
 
-		<a class="btn btn-primary btn--pill hidden md:inline-flex" href="#contact">Contacto</a>
+		<div class="flex items-center gap-3">
+			<a class="btn btn-primary btn--pill hidden md:inline-flex" href="#contact">Contacto</a>
 
-		<button
-			id="menu-toggle"
-			type="button"
-			class="inline-flex items-center justify-center p-2 text-neutral-100 md:hidden"
-			aria-label="Abrir menú"
-			aria-expanded="false"
-			aria-controls="mobile-menu"
-		>
-			<Menu class="h-6 w-6" />
-		</button>
+			<button
+				id="theme-toggle"
+				type="button"
+				class="theme-toggle"
+				aria-label="Cambiar a modo claro"
+				aria-pressed="false"
+			>
+				<Sun class="theme-toggle__icon theme-toggle__icon--sun h-5 w-5" />
+				<Moon class="theme-toggle__icon theme-toggle__icon--moon h-5 w-5" />
+			</button>
+
+			<button
+				id="menu-toggle"
+				type="button"
+				class="inline-flex items-center justify-center p-2 text-on-surface md:hidden"
+				aria-label="Abrir menú"
+				aria-expanded="false"
+				aria-controls="mobile-menu"
+			>
+				<Menu class="h-6 w-6" />
+			</button>
+		</div>
 	</div>
 
-	<div id="mobile-menu" class="hidden glass--dark md:hidden">
+	<div id="mobile-menu" class="hidden glass-surface md:hidden">
 		<nav class="container-site flex flex-col gap-1 py-4" aria-label="Móvil">
-			<a class="nav-link text-neutral-100 hover:text-brand-soft py-2" href="#services">Servicios</a>
-			<a class="nav-link text-neutral-100 hover:text-brand-soft py-2" href="#projects">Proyectos</a>
-			<a class="nav-link text-neutral-100 hover:text-brand-soft py-2" href="#about">Nosotros</a>
+			<a class="nav-link text-on-surface hover:text-brand-soft py-2" href="#services">Servicios</a>
+			<a class="nav-link text-on-surface hover:text-brand-soft py-2" href="#approach">Proceso</a>
+			<a class="nav-link text-on-surface hover:text-brand-soft py-2" href="#marketing">Marketing</a>
 			<a class="btn btn-primary btn--pill mt-3 w-full" href="#contact">Contacto</a>
 		</nav>
 	</div>
@@ -47,4 +69,60 @@ import { Menu } from 'lucide-astro';
 			toggle.setAttribute('aria-expanded', String(open));
 		});
 	}
+
+	const themeToggle = document.getElementById('theme-toggle');
+	const syncThemeButton = () => {
+		const light = document.documentElement.getAttribute('data-theme') === 'light';
+		themeToggle?.setAttribute('aria-pressed', String(light));
+		themeToggle?.setAttribute(
+			'aria-label',
+			light ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro',
+		);
+	};
+	syncThemeButton();
+
+	const applyTheme = (next: string) => {
+		document.documentElement.setAttribute('data-theme', next);
+		try {
+			localStorage.setItem('lombao-theme', next);
+		} catch {
+			// Sin almacenamiento disponible: el tema vive solo en la sesión.
+		}
+		syncThemeButton();
+	};
+
+	themeToggle?.addEventListener('click', (event) => {
+		const root = document.documentElement;
+		const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+		const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+		if (!document.startViewTransition || reduceMotion) {
+			applyTheme(next);
+			return;
+		}
+
+		const { clientX: x, clientY: y } = event as MouseEvent;
+		const endRadius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+
+		const transition = document.startViewTransition(() => applyTheme(next));
+		transition.ready
+			.then(() => {
+				root.animate(
+					{
+						clipPath: [
+							`circle(0px at ${x}px ${y}px)`,
+							`circle(${endRadius}px at ${x}px ${y}px)`,
+						],
+					},
+					{
+						duration: 500,
+						easing: 'ease-in-out',
+						pseudoElement: '::view-transition-new(root)',
+					},
+				);
+			})
+			.catch(() => {
+				// La transición ya aplicó el tema; sin animación no hay nada que reparar.
+			});
+	});
 </script>

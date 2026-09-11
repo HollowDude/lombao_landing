@@ -69,6 +69,13 @@
 	--color-blue-dark-hover: #1d4b6e;
 	--color-ink: #181c21;
 
+	/* Superficie semántica (remapeada por [data-theme]; la marca no cambia) */
+	--color-surface: var(--color-ink);
+	--color-surface-soft: color-mix(in srgb, var(--color-ink) 92%, white 8%);
+	--color-on-surface: var(--color-neutral-100);
+	--color-on-surface-muted: color-mix(in srgb, var(--color-neutral-100) 80%, transparent);
+	--color-border-subtle: color-mix(in srgb, var(--color-neutral-100) 10%, transparent);
+
 	/* Escala de neutros derivada del Negro Antracita */
 	--color-neutral-900: #181c21;
 	--color-neutral-700: #3d4149;
@@ -84,6 +91,16 @@
 	/* Tipografías */
 	--font-display: 'Momo Trust Display', 'Poppins', sans-serif;
 	--font-sans: 'Poppins', system-ui, sans-serif;
+}
+
+/* Tema claro: solo se remapean superficie y neutros de texto/borde.
+   Sin capas: gana a las variables de `@layer theme` por orden y especificidad. */
+[data-theme='light'] {
+	--color-surface: var(--color-neutral-0);
+	--color-surface-soft: var(--color-neutral-100);
+	--color-on-surface: var(--color-ink);
+	--color-on-surface-muted: var(--color-neutral-700);
+	--color-border-subtle: var(--color-neutral-300);
 }
 
 /* ─── Base ───────────────────────────────────────────────────────────────── */
@@ -411,6 +428,10 @@
 		background-color: var(--color-brand-hover);
 		color: #ffffff;
 	}
+	.btn:disabled {
+		opacity: 0.6;
+		cursor: not-allowed;
+	}
 
 	.btn-outline {
 		background-color: transparent;
@@ -695,6 +716,56 @@
 		transform: translateY(-3px);
 		box-shadow: 0 16px 32px -16px rgba(24, 28, 33, 0.2);
 	}
+	/* Vidrio ligado al tema (header): sigue a --color-surface en ambos modos */
+	.glass-surface {
+		background-color: color-mix(in srgb, var(--color-surface) 55%, transparent);
+		-webkit-backdrop-filter: blur(20px);
+		backdrop-filter: blur(20px);
+		border: 1px solid var(--color-border-subtle);
+	}
+	/* ── Toggle de tema ──────────────────────────────────────────── */
+	.theme-toggle {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 2.5rem;
+		height: 2.5rem;
+		flex: none;
+		border-radius: 9999px;
+		border: 1px solid var(--color-border-subtle);
+		color: var(--color-on-surface);
+		background-color: transparent;
+		cursor: pointer;
+		transition:
+			border-color 180ms ease,
+			color 180ms ease;
+	}
+	.theme-toggle:hover {
+		border-color: var(--color-brand);
+		color: var(--color-brand);
+	}
+	/* ── Logo del header según tema (crossfade sin salto de layout) ── */
+	.site-logo {
+		transition: opacity 300ms ease;
+	}
+	.site-logo--light {
+		opacity: 0;
+	}
+	[data-theme='light'] .site-logo--light {
+		opacity: 1;
+	}
+	[data-theme='light'] .site-logo--dark {
+		opacity: 0;
+	}
+	.theme-toggle__icon--sun {
+		display: none;
+	}
+	[data-theme='light'] .theme-toggle__icon--sun {
+		display: block;
+	}
+	[data-theme='light'] .theme-toggle__icon--moon {
+		display: none;
+	}
 	/* Fallback: sin backdrop-filter, superficie sólida legible */
 	@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
 		.glass {
@@ -712,13 +783,17 @@
 		.glass--surface {
 			background-color: var(--color-neutral-0);
 		}
+		.glass-surface {
+			background-color: var(--color-surface);
+		}
 	}
 	@media (prefers-reduced-transparency: reduce) {
 		.glass,
 		.glass--dark,
 		.glass--brand,
 		.glass--accent,
-		.glass--surface {
+		.glass--surface,
+		.glass-surface {
 			-webkit-backdrop-filter: none;
 			backdrop-filter: none;
 		}
@@ -788,6 +863,8 @@
 		.card,
 		.glass--surface,
 		.btn,
+		.theme-toggle,
+		.site-logo,
 		.action-link::after,
 		.nav-link::after {
 			transition: none;
@@ -797,4 +874,32 @@
 			transform: none;
 		}
 	}
+}
+
+/* Sin capas a propósito: deben ganar a las utilidades y al crossfade UA. */
+[data-theme='light'] .nav-link:hover {
+	/* Rosa sobre blanco falla AA: en claro el hover pasa a fucsia-oscuro (7.2:1) */
+	color: var(--color-brand-hover);
+}
+[data-theme='light'] .glass--dark {
+	/* 55% sobre fondo claro no llega a AA para texto blanco (3.9:1): 75% sí (7.5:1) */
+	background-color: color-mix(in srgb, var(--color-ink) 75%, transparent);
+}
+[data-theme='light'] .glass--brand {
+	/* Blanco sobre brand traslúcido falla en claro (2.5:1): el texto pasa a ink (6.8:1) */
+	color: var(--color-ink);
+}
+[data-theme='light'] .btn-soft {
+	/* Rosa sobre blanco falla AA (3.5:1): en claro, borde fucsia + texto fucsia-oscuro */
+	border-color: var(--color-brand);
+	color: var(--color-brand-hover);
+}
+[data-theme='light'] .btn-soft:hover {
+	background-color: color-mix(in srgb, var(--color-brand) 8%, transparent);
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+	animation: none;
+	mix-blend-mode: normal;
 }
